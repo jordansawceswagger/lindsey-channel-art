@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lindsey Channel — Original Oil Paintings</title>
+<meta name="description" content="Original oil paintings by Lindsey Channel. Native American themed fine art from Bigfork, Montana." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+
+<style>
+  /* ---------- RESET + BASE ---------- */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    background: #100c08;
+    color: #d4b896;
+    font-family: 'Lora', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    position: relative;
+  }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; background: none; border: none; cursor: pointer; color: inherit; }
+
+  :root {
+    --bg: #100c08;
+    --text: #d4b896;
+    --accent: #2a8c7e;
+    --hover: #8c3a1e;
+    --sage: #6b7c5c;
+    --card: #1a1208;
+    --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  /* ---------- GRAIN OVERLAY ---------- */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.83 0 0 0 0 0.72 0 0 0 0 0.59 0 0 0 0.8 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    mix-blend-mode: overlay;
+  }
+
+  /* ---------- NAV ---------- */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 48px;
+    transition: background 0.4s var(--ease), border-color 0.4s var(--ease);
+    border-bottom: 1px solid transparent;
+  }
+  nav.scrolled {
+    background: rgba(16, 12, 8, 0.92);
+    border-bottom-color: var(--hover);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .nav-brand {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--text);
+    letter-spacing: 0.01em;
+  }
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--text);
+    transition: color 0.3s var(--ease);
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .hamburger {
+    display: none;
+    width: 28px;
+    height: 22px;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 110;
+  }
+  .hamburger span {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: var(--text);
+    transition: transform 0.4s var(--ease), opacity 0.3s var(--ease);
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(10px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-10px) rotate(-45deg); }
+  .mobile-nav {
+    position: fixed;
+    inset: 0;
+    background: rgba(16, 12, 8, 0.98);
+    z-index: 105;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 36px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s var(--ease);
+  }
+  .mobile-nav.open { opacity: 1; pointer-events: auto; }
+  .mobile-nav a {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 30px;
+    color: var(--text);
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 600px;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 40%, #3a1f0e 0%, #1a0f08 45%, #100c08 100%),
+                linear-gradient(160deg, #1a0f08 0%, #2d1a0a 50%, #100c08 100%);
+    background-blend-mode: overlay;
+  }
+  .hero-vignette {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 100%),
+      rgba(10, 6, 2, 0.45);
+    pointer-events: none;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 60px;
+    max-width: 760px;
+  }
+  .hero-eyebrow {
+    color: var(--sage);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    margin-bottom: 24px;
+  }
+  .hero-headline {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 72px;
+    line-height: 1.05;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+  .hero-subhead {
+    font-size: 18px;
+    color: rgba(212, 184, 150, 0.75);
+    max-width: 540px;
+    line-height: 1.6;
+    margin-bottom: 36px;
+  }
+  .hero-cta {
+    display: inline-block;
+    padding: 14px 28px;
+    border: 1px solid var(--text);
+    color: var(--text);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    transition: background 0.4s var(--ease), border-color 0.4s var(--ease), color 0.4s var(--ease);
+  }
+  .hero-cta:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #100c08;
+  }
+
+  /* ---------- SECTION HEADING ---------- */
+  .section-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin: 0 auto 36px;
+    max-width: 760px;
+    padding: 0 24px;
+  }
+  .section-title h2 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 36px;
+    color: var(--text);
+    text-align: center;
+    white-space: nowrap;
+  }
+  .section-title::before,
+  .section-title::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--hover);
+    opacity: 0.5;
+  }
+
+  /* ---------- GALLERY ---------- */
+  .gallery-section {
+    padding: 120px 0 100px;
+  }
+  .filter-bar {
+    display: flex;
+    justify-content: center;
+    gap: 36px;
+    margin-bottom: 60px;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--sage);
+    padding: 8px 4px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.3s var(--ease), border-color 0.3s var(--ease);
+  }
+  .filter-btn.active {
+    color: var(--text);
+    border-bottom-color: var(--accent);
+  }
+  .filter-btn:hover { color: var(--text); }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 64px 56px;
+    padding: 0 88px 0 120px;
+    max-width: 1500px;
+    margin: 0 auto;
+  }
+  .card {
+    position: relative;
+    background: var(--card);
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    transform: translateY(24px);
+    animation: fadeUp 0.9s var(--ease) forwards;
+    animation-delay: calc(var(--i) * 0.08s);
+  }
+  .card.hidden {
+    display: none;
+  }
+  .card:hover {
+    transform: scale(1.02) rotate(var(--tilt, 0.5deg));
+    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.7), 0 4px 16px rgba(140, 58, 30, 0.15);
+  }
+  .card:nth-child(odd):hover { --tilt: -0.8deg; }
+  .card:nth-child(even):hover { --tilt: 0.8deg; }
+
+  .card-media {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+  .card-media img { width: 100%; height: 100%; object-fit: cover; }
+  .placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(107, 124, 92, 0.4);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 16px;
+  }
+  .placeholder::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.6 0 0 0 0 0.4 0 0 0 0 0.2 0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    opacity: 0.35;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+  .placeholder span { position: relative; z-index: 1; }
+
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(8, 5, 2, 0.92) 0%, rgba(8, 5, 2, 0.55) 35%, transparent 65%);
+    opacity: 0;
+    transition: opacity 0.5s var(--ease);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 28px;
+  }
+  .card:hover .card-overlay { opacity: 1; }
+  .card-info { transform: translateY(8px); transition: transform 0.5s var(--ease); }
+  .card:hover .card-info { transform: translateY(0); }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--text);
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+  .card-meta {
+    font-size: 12px;
+    color: var(--sage);
+    letter-spacing: 0.04em;
+    margin-bottom: 10px;
+  }
+  .card-price {
+    font-size: 16px;
+    color: var(--text);
+    margin-bottom: 14px;
+  }
+  .card-cta {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+  }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ---------- LIGHTBOX ---------- */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(8, 5, 2, 0.95);
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s var(--ease);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    overflow-y: auto;
+  }
+  .lightbox.open { opacity: 1; pointer-events: auto; }
+  .lightbox::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.83 0 0 0 0 0.72 0 0 0 0 0.59 0 0 0 0.05 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .lightbox-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 60% 40%;
+    gap: 48px;
+    align-items: center;
+  }
+  .lightbox-media {
+    aspect-ratio: 4 / 5;
+    background: var(--card);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 70px rgba(0, 0, 0, 0.6);
+  }
+  .lightbox-media img { width: 100%; height: 100%; object-fit: cover; }
+  .lightbox-details {
+    padding: 12px 0;
+  }
+  .lightbox-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 32px;
+    color: var(--text);
+    margin-bottom: 24px;
+    line-height: 1.15;
+  }
+  .lightbox-meta {
+    font-size: 13px;
+    color: var(--sage);
+    margin-bottom: 6px;
+    letter-spacing: 0.03em;
+  }
+  .lightbox-price {
+    color: var(--text);
+    font-size: 24px;
+    margin: 24px 0;
+  }
+  .lightbox-desc {
+    font-size: 16px;
+    line-height: 1.85;
+    color: var(--text);
+    margin-bottom: 36px;
+    opacity: 0.9;
+  }
+  .lightbox-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .lb-btn {
+    display: inline-block;
+    padding: 14px 24px;
+    border: 1px solid var(--text);
+    text-align: center;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--text);
+    transition: background 0.4s var(--ease), color 0.4s var(--ease), border-color 0.4s var(--ease);
+  }
+  .lb-btn.primary { background: var(--accent); border-color: var(--accent); color: #100c08; }
+  .lb-btn.primary:hover { background: var(--hover); border-color: var(--hover); color: var(--text); }
+  .lb-btn.secondary:hover { background: var(--text); color: #100c08; }
+
+  .lightbox-close {
+    position: fixed;
+    top: 24px;
+    right: 32px;
+    width: 44px;
+    height: 44px;
+    font-size: 28px;
+    color: var(--text);
+    z-index: 3;
+    transition: color 0.3s var(--ease), transform 0.3s var(--ease);
+  }
+  .lightbox-close:hover { color: var(--hover); transform: rotate(90deg); }
+
+  /* ---------- ABOUT ---------- */
+  .about-section {
+    padding: 120px 88px 120px 120px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .about-image {
+    aspect-ratio: 3 / 4;
+    border: 1px solid var(--hover);
+    padding: 10px;
+    background: var(--card);
+    position: relative;
+  }
+  .about-image .placeholder {
+    inset: 10px;
+  }
+  .about-text {
+    font-size: 18px;
+    line-height: 1.85;
+    color: var(--text);
+  }
+  .about-text p { margin-bottom: 24px; }
+  .about-eyebrow {
+    color: var(--sage);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin-bottom: 20px;
+  }
+  .about-heading {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 42px;
+    color: var(--text);
+    line-height: 1.15;
+    margin-bottom: 28px;
+  }
+
+  /* ---------- CONTACT ---------- */
+  .contact-section {
+    padding: 120px 24px 140px;
+    text-align: center;
+  }
+  .contact-section h2 {
+    margin-bottom: 24px;
+  }
+  .contact-lead {
+    max-width: 560px;
+    margin: 0 auto 48px;
+    color: rgba(212, 184, 150, 0.8);
+    line-height: 1.7;
+  }
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    font-size: 18px;
+  }
+  .contact-details a {
+    color: var(--accent);
+    transition: color 0.3s var(--ease);
+  }
+  .contact-details a:hover { color: var(--hover); }
+  .contact-label {
+    color: var(--sage);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    margin-right: 8px;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    border-top: 1px solid var(--hover);
+    padding: 40px 48px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--sage);
+    letter-spacing: 0.05em;
+  }
+  footer .artist {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 900px) {
+    nav { padding: 18px 24px; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .hero-content { padding: 32px; }
+    .hero-headline { font-size: 42px; }
+    .hero-subhead { font-size: 16px; }
+    .gallery {
+      grid-template-columns: 1fr;
+      padding: 0 24px;
+      gap: 36px;
+    }
+    .gallery-section { padding: 80px 0 60px; }
+    .section-title h2 { font-size: 26px; }
+    .filter-bar { gap: 24px; margin-bottom: 36px; }
+    .about-section { padding: 80px 24px; }
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .about-heading { font-size: 30px; }
+    .lightbox { padding: 20px; }
+    .lightbox-inner {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .lightbox-title { font-size: 26px; }
+    .contact-section { padding: 80px 24px 100px; }
+    footer { padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#" class="nav-brand" id="navBrand">Lindsey Channel</a>
+  <ul class="nav-links">
+    <li><a href="#gallery" data-filter="original">Originals</a></li>
+    <li><a href="#gallery" data-filter="print">Prints</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-nav" id="mobileNav">
+  <a href="#gallery" data-filter="original">Originals</a>
+  <a href="#gallery" data-filter="print">Prints</a>
+  <a href="#about">About</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-vignette"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow" id="heroEyebrow">Bigfork, Montana</div>
+    <h1 class="hero-headline" id="heroHeadline">The Living West</h1>
+    <p class="hero-subhead" id="heroSubhead">Original oil paintings by Lindsey Channel. Each piece a ceremony in pigment.</p>
+    <a href="#gallery" class="hero-cta">View the Collection ↓</a>
+  </div>
+</header>
+
+<section class="gallery-section" id="gallery">
+  <div class="section-title">
+    <h2>The Collection</h2>
+  </div>
+  <div class="filter-bar" id="filterBar">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="original">Originals</button>
+    <button class="filter-btn" data-filter="print">Prints</button>
+  </div>
+  <div class="gallery" id="gallery-grid"></div>
+</section>
+
+<section class="about-section" id="about">
+  <div class="about-grid">
+    <div class="about-image">
+      <div class="placeholder" style="background: linear-gradient(160deg, #3a1f0e, #1a0f08);">
+        <span>📷 Replace with assets/lindsey.jpg</span>
+      </div>
+    </div>
+    <div>
+      <div class="about-eyebrow">The Artist</div>
+      <h2 class="about-heading">Painted slowly,<br/>the way memory works.</h2>
+      <div class="about-text" id="aboutText"></div>
+    </div>
+  </div>
+</section>
+
+<section class="contact-section" id="contact">
+  <div class="section-title">
+    <h2>Inquiries</h2>
+  </div>
+  <p class="contact-lead">Originals available for purchase. Commissions accepted by appointment. Write or call — every painting begins with a conversation.</p>
+  <div class="contact-details" id="contactDetails"></div>
+</section>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">×</button>
+  <div class="lightbox-inner" id="lightboxInner"></div>
+</div>
+
+<footer>
+  <div class="artist" id="footerName">Lindsey Channel</div>
+  <div>© <span id="year"></span> Lindsey Channel. All works original.</div>
+  <div style="margin-top: 8px; opacity: 0.7;">Reproduction prohibited without written consent.</div>
+</footer>
+
+<script>
+/* ============================================
+   EDIT YOUR PAINTINGS HERE
+   - type: "original" or "print"
+   - image: filename only, must be in /paintings/ folder
+   - price: include $ sign
+   - To add a new painting: copy any block, paste it,
+     change the id (next number), and update the fields.
+============================================ */
+const paintings = [
+  {
+    id: 1,
+    title: "Crow Dog Medicine",
+    type: "original",
+    medium: "Oil on canvas",
+    dimensions: "24\" × 30\"",
+    price: "$1,800",
+    image: "paintings/crow-dog.jpg",
+    description: "An elder's profile against open sky — painted in the long light of a Montana July."
+  },
+  {
+    id: 2,
+    title: "Before the Ride",
+    type: "original",
+    medium: "Oil on linen",
+    dimensions: "20\" × 24\"",
+    price: "$1,400",
+    image: "paintings/before-the-ride.jpg",
+    description: "A warrior prepares in stillness. The horse knows before the rider does."
+  },
+  {
+    id: 3,
+    title: "Flathead Autumn",
+    type: "print",
+    medium: "Giclee print on archival paper",
+    dimensions: "18\" × 22\"",
+    price: "$195",
+    image: "paintings/flathead-autumn.jpg",
+    description: "Lake Flathead at the turn of season. The water holds the last warmth."
+  },
+  {
+    id: 4,
+    title: "Two Medicine Morning",
+    type: "original",
+    medium: "Oil on canvas",
+    dimensions: "30\" × 40\"",
+    price: "$2,600",
+    image: "paintings/two-medicine.jpg",
+    description: "Dawn breaks across the Two Medicine Valley. Blackfeet country. The light arrives like a question."
+  },
+  {
+    id: 5,
+    title: "The Pipe Carrier",
+    type: "original",
+    medium: "Oil on board",
+    dimensions: "16\" × 20\"",
+    price: "$950",
+    image: "paintings/pipe-carrier.jpg",
+    description: "A figure moves through deep winter. What he carries is older than the cold."
+  },
+  {
+    id: 6,
+    title: "Summer Hunt",
+    type: "print",
+    medium: "Canvas print, hand-finished",
+    dimensions: "24\" × 30\"",
+    price: "$320",
+    image: "paintings/summer-hunt.jpg",
+    description: "The plains before the silence breaks. Limited to 50 numbered prints."
+  },
+  {
+    id: 7,
+    title: "Glacier Rider",
+    type: "original",
+    medium: "Oil on linen",
+    dimensions: "36\" × 48\"",
+    price: "$3,200",
+    image: "paintings/glacier-rider.jpg",
+    description: "Horse and rider against the Continental Divide. The mountain doesn't notice. That's the point."
+  }
+];
+
+/* ============================================
+   SITE SETTINGS — change these once and forget
+============================================ */
+const site = {
+  artistName: "Lindsey Channel",
+  location: "Bigfork, Montana",
+  email: "lindsey@channeloutfitters.com",
+  phone: "406-261-2772",
+  phoneLink: "+14062612772",
+  instagramHandle: "@channel_outfitters",
+  instagramUrl: "https://instagram.com/channel_outfitters",
+  heroHeadline: "The Living West",
+  heroSubhead: "Original oil paintings by Lindsey Channel. Each piece a ceremony in pigment.",
+  aboutText: `Lindsey Channel paints from the landscape and the story — the Blackfeet horizon, the ceremony of light on water, the faces that carry centuries. Each canvas is built slowly, in layers, the way memory works.
+
+Based in Bigfork, Montana. Available for commissions and gallery inquiries.`
+};
+
+/* ============================================
+   EVERYTHING BELOW THIS LINE IS INFRASTRUCTURE
+   — you don't need to edit it to add paintings.
+============================================ */
+
+// Warm earth gradients used for image placeholders
+const placeholderGradients = [
+  "linear-gradient(160deg, #8c3a1e 0%, #3a1f0e 100%)",  // burnt sienna → mesa shadow
+  "linear-gradient(160deg, #a86e2c 0%, #2d1a0a 100%)",  // deep ochre
+  "linear-gradient(160deg, #6b7c5c 0%, #1a2014 100%)",  // dark sage
+  "linear-gradient(160deg, #2a4a5c 0%, #0e1820 100%)",  // storm blue
+  "linear-gradient(160deg, #9c2e1a 0%, #2a0a08 100%)",  // canyon red
+  "linear-gradient(160deg, #5c4423 0%, #1a1208 100%)",  // mesa shadow
+  "linear-gradient(160deg, #3a5c4a 0%, #100c08 100%)"   // sage moss
+];
+
+// Pulls a gradient by painting id so it's stable across reloads
+function gradientFor(id) {
+  return placeholderGradients[(id - 1) % placeholderGradients.length];
+}
+
+// Renders the painting cards into the gallery grid
+function renderGallery() {
+  const grid = document.getElementById("gallery-grid");
+  grid.innerHTML = paintings.map((p, i) => `
+    <article class="card" data-type="${p.type}" data-id="${p.id}" style="--i:${i};">
+      <div class="card-media">
+        <div class="placeholder" style="background:${gradientFor(p.id)};">
+          <span>📷 Replace with painting image</span>
+        </div>
+      </div>
+      <div class="card-overlay">
+        <div class="card-info">
+          <div class="card-title">${p.title}</div>
+          <div class="card-meta">${p.medium} · ${p.dimensions}</div>
+          <div class="card-price">${p.price}</div>
+          <div class="card-cta">Inquire →</div>
+        </div>
+      </div>
+    </article>
+  `).join("");
+
+  // Swap the placeholder for the real image if it loads
+  paintings.forEach(p => {
+    const card = grid.querySelector(`.card[data-id="${p.id}"]`);
+    if (!card) return;
+    const img = new Image();
+    img.onload = () => {
+      const media = card.querySelector(".card-media");
+      media.innerHTML = `<img src="${p.image}" alt="${p.title}" />`;
+    };
+    img.src = p.image;
+  });
+
+  // Wire up clicks to open the lightbox
+  grid.querySelectorAll(".card").forEach(card => {
+    card.addEventListener("click", () => {
+      const id = parseInt(card.dataset.id, 10);
+      openLightbox(id);
+    });
+  });
+}
+
+// Filters the gallery by type (all | original | print)
+function applyFilter(filter) {
+  document.querySelectorAll(".filter-btn").forEach(b => {
+    b.classList.toggle("active", b.dataset.filter === filter);
+  });
+  document.querySelectorAll(".card").forEach(card => {
+    const show = filter === "all" || card.dataset.type === filter;
+    card.classList.toggle("hidden", !show);
+  });
+}
+
+// Opens the lightbox detail view for a given painting id
+function openLightbox(id) {
+  const p = paintings.find(x => x.id === id);
+  if (!p) return;
+  const inner = document.getElementById("lightboxInner");
+  const subject = encodeURIComponent(`Purchase Inquiry: ${p.title}`);
+  const commissionSubject = encodeURIComponent(`Commission Inquiry`);
+  inner.innerHTML = `
+    <div class="lightbox-media">
+      <div class="placeholder" style="background:${gradientFor(p.id)};">
+        <span>📷 Replace with painting image</span>
+      </div>
+    </div>
+    <div class="lightbox-details">
+      <h3 class="lightbox-title">${p.title}</h3>
+      <div class="lightbox-meta">${p.medium}</div>
+      <div class="lightbox-meta">${p.dimensions}</div>
+      <div class="lightbox-meta" style="text-transform:uppercase;letter-spacing:0.18em;font-size:11px;margin-top:8px;">${p.type === "print" ? "Limited Edition Print" : "Original Work"}</div>
+      <div class="lightbox-price">${p.price}</div>
+      <p class="lightbox-desc">${p.description}</p>
+      <div class="lightbox-actions">
+        <a class="lb-btn primary" href="mailto:${site.email}?subject=${subject}">Request Purchase</a>
+        <a class="lb-btn secondary" href="mailto:${site.email}?subject=${commissionSubject}">Request Commission</a>
+      </div>
+    </div>
+  `;
+  // Try to load the real painting image into the lightbox if it exists
+  const img = new Image();
+  img.onload = () => {
+    const media = inner.querySelector(".lightbox-media");
+    if (media) media.innerHTML = `<img src="${p.image}" alt="${p.title}" />`;
+  };
+  img.src = p.image;
+
+  document.getElementById("lightbox").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+// Closes the lightbox
+function closeLightbox() {
+  document.getElementById("lightbox").classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+// Hydrates the page with values from the site config
+function applySiteSettings() {
+  document.getElementById("navBrand").textContent = site.artistName;
+  document.getElementById("heroEyebrow").textContent = site.location;
+  document.getElementById("heroHeadline").textContent = site.heroHeadline;
+  document.getElementById("heroSubhead").textContent = site.heroSubhead;
+  document.getElementById("footerName").textContent = site.artistName;
+  document.getElementById("year").textContent = new Date().getFullYear();
+  document.title = `${site.artistName} — Original Oil Paintings`;
+
+  // About text: split paragraphs on blank lines
+  const aboutEl = document.getElementById("aboutText");
+  aboutEl.innerHTML = site.aboutText
+    .split(/\n\s*\n/)
+    .map(para => `<p>${para.trim()}</p>`)
+    .join("");
+
+  // Contact details
+  const contactEl = document.getElementById("contactDetails");
+  contactEl.innerHTML = `
+    <div><span class="contact-label">Phone</span><a href="tel:${site.phoneLink}">${site.phone}</a></div>
+    <div><span class="contact-label">Email</span><a href="mailto:${site.email}">${site.email}</a></div>
+    <div><span class="contact-label">Instagram</span><a href="${site.instagramUrl}" target="_blank" rel="noopener">${site.instagramHandle}</a></div>
+  `;
+}
+
+// Wires up the filter bar buttons and the Originals/Prints nav links
+function setupFilters() {
+  document.querySelectorAll(".filter-btn").forEach(btn => {
+    btn.addEventListener("click", () => applyFilter(btn.dataset.filter));
+  });
+  document.querySelectorAll("[data-filter]").forEach(link => {
+    if (link.classList.contains("filter-btn")) return;
+    link.addEventListener("click", () => {
+      applyFilter(link.dataset.filter);
+      closeMobileNav();
+    });
+  });
+}
+
+// Adds the scrolled state to the nav after the user scrolls past the top
+function setupNavScroll() {
+  const nav = document.getElementById("nav");
+  const update = () => nav.classList.toggle("scrolled", window.scrollY > 40);
+  window.addEventListener("scroll", update, { passive: true });
+  update();
+}
+
+// Toggles the mobile hamburger menu
+function setupMobileNav() {
+  const burger = document.getElementById("hamburger");
+  const menu = document.getElementById("mobileNav");
+  burger.addEventListener("click", () => {
+    burger.classList.toggle("open");
+    menu.classList.toggle("open");
+  });
+  menu.querySelectorAll("a").forEach(a => {
+    a.addEventListener("click", closeMobileNav);
+  });
+}
+
+// Helper: closes the mobile menu if it's open
+function closeMobileNav() {
+  document.getElementById("hamburger").classList.remove("open");
+  document.getElementById("mobileNav").classList.remove("open");
+}
+
+// Lightbox close handlers (× button, click outside, ESC key)
+function setupLightbox() {
+  document.getElementById("lightboxClose").addEventListener("click", closeLightbox);
+  document.getElementById("lightbox").addEventListener("click", e => {
+    if (e.target.id === "lightbox") closeLightbox();
+  });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") closeLightbox();
+  });
+}
+
+// Boot everything once the DOM is ready
+function init() {
+  applySiteSettings();
+  renderGallery();
+  setupFilters();
+  setupNavScroll();
+  setupMobileNav();
+  setupLightbox();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", init);
+} else {
+  init();
+}
+</script>
+</body>
+</html>
