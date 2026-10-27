@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jordansawceswagger.github.io/lindsey-channel-art/sitemap.xml

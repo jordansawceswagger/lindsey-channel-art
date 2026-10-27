@@ -2,13 +2,19 @@
 
 GitHub Pages site for original oil paintings by Lindsey Channel.
 
-## To add a painting
+## To add or change paintings
 
-1. Drop the JPG into the `/paintings/` folder
-2. Open `index.html` in any text editor
-3. Find the section marked **EDIT YOUR PAINTINGS HERE** near the top of the `<script>` block
-4. Copy an existing painting block and change the title, price, image filename, and description
-5. Save and push to GitHub
+Paintings live in **`catalog.csv`**, one row per painting (see `_kit/catalog-how-to.md` for the columns).
+
+1. Edit `catalog.csv` (or replace it with the CSV downloaded from the Google Sheet)
+2. Put each photo in `/paintings/` named `<slug>.jpg` (slug = title lowercased, spaces → dashes)
+3. Run `python3 build.py`. It fills the gallery, writes one page per painting in `/paintings/`, and rebuilds `sitemap.xml`
+4. Commit and push
+
+While `catalog.csv` is empty the site carries a `noindex` tag so Google doesn't index an empty gallery. It comes off automatically on the first build with real paintings.
+
+## Kit for Lindsey, Holly and Steve
+`_kit/` (not published; Jekyll skips underscore folders): catalog template + how-to, photo brief for Steve, interview guide for the about copy.
 
 ## To deploy
 
