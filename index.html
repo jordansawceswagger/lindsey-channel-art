@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Lindsey Channel — Original Oil Paintings</title>
 <meta name="description" content="Original oil paintings by Lindsey Channel. Native American themed fine art from Bigfork, Montana." />
-<!-- ROBOTS:START --><meta name="robots" content="noindex" /><!-- ROBOTS:END -->
+<!-- ROBOTS:START --><!-- ROBOTS:END -->
 <link rel="canonical" href="https://jordansawceswagger.github.io/lindsey-channel-art/" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Lindsey Channel — Original Oil Paintings" />
@@ -405,18 +405,21 @@
     max-width: 1200px;
     width: 100%;
     display: grid;
-    grid-template-columns: 60% 40%;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
     gap: 48px;
     align-items: center;
   }
   .lightbox-media {
-    aspect-ratio: 4 / 5;
+    aspect-ratio: auto;
+    min-height: 240px;
     background: var(--card);
     position: relative;
     overflow: hidden;
     box-shadow: 0 20px 70px rgba(0, 0, 0, 0.6);
   }
-  .lightbox-media img { width: 100%; height: 100%; object-fit: cover; }
+  .lightbox-media img { width: 100%; height: auto; max-height: 80vh; object-fit: contain; }
+  .card.has-art { align-self: start; }
+  .card-media img.wide { object-fit: contain; background: var(--card); }
   .lightbox-details {
     padding: 12px 0;
   }
@@ -693,7 +696,106 @@
    then run  python3 build.py
 ============================================ */
 // CATALOG:START
-const paintings = [];
+const paintings = [
+  {
+    "id": 1,
+    "slug": "holly",
+    "title": "Holly",
+    "year": "",
+    "type": "original",
+    "status": "available",
+    "medium": "",
+    "dimensions": "",
+    "price": "",
+    "image": "paintings/holly.jpg",
+    "description": "",
+    "printKind": ""
+  },
+  {
+    "id": 2,
+    "slug": "winter-scene",
+    "title": "Winter scene",
+    "year": "",
+    "type": "original",
+    "status": "available",
+    "medium": "",
+    "dimensions": "",
+    "price": "",
+    "image": "paintings/winter-scene.jpg",
+    "description": "",
+    "printKind": ""
+  },
+  {
+    "id": 3,
+    "slug": "camp-greeting",
+    "title": "Camp greeting",
+    "year": "",
+    "type": "original",
+    "status": "available",
+    "medium": "",
+    "dimensions": "",
+    "price": "",
+    "image": "paintings/camp-greeting.jpg",
+    "description": "",
+    "printKind": ""
+  },
+  {
+    "id": 4,
+    "slug": "two-indians-travelling",
+    "title": "Two indians travelling",
+    "year": "",
+    "type": "original",
+    "status": "available",
+    "medium": "",
+    "dimensions": "",
+    "price": "",
+    "image": "paintings/two-indians-travelling.jpg",
+    "description": "",
+    "printKind": ""
+  },
+  {
+    "id": 5,
+    "slug": "ram-success",
+    "title": "Ram success",
+    "year": "",
+    "type": "original",
+    "status": "available",
+    "medium": "",
+    "dimensions": "",
+    "price": "",
+    "image": "paintings/ram-success.jpg",
+    "description": "",
+    "printKind": ""
+  },
+  {
+    "id": 6,
+    "slug": "trapper",
+    "title": "Trapper",
+    "year": "",
+    "type": "original",
+    "status": "available",
+    "medium": "",
+    "dimensions": "",
+    "price": "",
+    "image": "paintings/trapper.jpg",
+    "description": "",
+    "printKind": ""
+  },
+  {
+    "id": 7,
+    "slug": "bison-butte",
+    "title": "Bison butte",
+    "year": "",
+    "type": "original",
+    "status": "available",
+    "medium": "",
+    "dimensions": "",
+    "price": "",
+    "image": "paintings/bison-butte.jpg",
+    "description": "",
+    "printKind": ""
+  }
+];
 // CATALOG:END
 
 /* ============================================
@@ -778,6 +880,12 @@ function renderGallery() {
     img.onload = () => {
       const media = card.querySelector(".card-media");
       media.innerHTML = `<img src="${p.image}" alt="${altText(p)}" loading="lazy" />`;
+      // Card takes the painting's own shape so nothing gets cropped.
+      // Very wide pieces (panoramas) cap at 1.9:1 and letterbox instead.
+      const ratio = img.naturalWidth / img.naturalHeight;
+      card.style.aspectRatio = `${Math.min(ratio, 1.9)}`;
+      card.classList.add("has-art");
+      if (ratio > 1.9) media.querySelector("img").classList.add("wide");
     };
     img.src = p.image;
   });
