@@ -14,7 +14,8 @@ It writes:
 
 Columns (header row required; only title is mandatory):
   title, year, type (original|print), status (available|sold|collection|nfs),
-  medium, dimensions, price, print_kind, description, image, slug
+  medium, dimensions, price, prints (yes = prints of this original are for sale),
+  print_kind, print_price, description, image, slug
 image defaults to paintings/<slug>.jpg; slug defaults to the title, lowercased.
 """
 import csv, html, json, os, re, sys
@@ -68,6 +69,8 @@ def js_entry(r):
     keys = ["id", "slug", "title", "year", "type", "status", "medium", "dimensions", "price", "image", "description"]
     d = {k: r.get(k, "") for k in keys}
     d["printKind"] = r.get("print_kind", "")
+    d["prints"] = r.get("prints", "").lower() in {"yes", "y", "true", "1"}
+    d["printPrice"] = r.get("print_price", "")
     return d
 
 
@@ -96,6 +99,9 @@ def painting_page(r):
     status_label = {"sold": "Sold", "collection": "Private collection", "nfs": "Not for sale"}.get(r["status"], "")
     kind = status_label or (r.get("print_kind") or "Print" if r["type"] == "print" else "Original oil painting")
     available = r["status"] == "available"
+    prints = r.get("prints", "").lower() in {"yes", "y", "true", "1"}
+    if prints:
+        kind += " · Prints available"
     meta_line = " · ".join(x for x in [r.get("year", ""), r.get("medium", ""), r.get("dimensions", "")] if x)
     desc = r.get("description") or f"{r['title']}, {kind.lower()} by {ARTIST}" + (f", {r['year']}" if r.get("year") else "") + "."
     schema = {
@@ -159,9 +165,11 @@ def painting_page(r):
       <div class="meta">{html.escape(meta_line)}</div>
       <div class="kind">{html.escape(kind)}</div>
       {f'<div class="price">{e("price")}</div>' if available and r.get("price") else ""}
+      {f'<div class="meta">Prints from {e("print_price")}</div>' if prints and r.get("print_price") else ""}
       {f'<p class="desc">{e("description")}</p>' if r.get("description") else ""}
       <div class="btns">
         <a class="btn primary" href="{mail(buy_subject)}">{buy_label}</a>
+        {f'<a class="btn" href="{mail("Print order: " + r["title"])}">Order a print</a>' if prints and available else ""}
         <a class="btn" href="{mail('Commission Inquiry')}">Request commission</a>
         <a class="btn" href="tel:{PHONE_LINK}">Call {PHONE}</a>
       </div>

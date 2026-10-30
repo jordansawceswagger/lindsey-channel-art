@@ -1,8 +1,8 @@
-title,year,type,status,medium,dimensions,price,print_kind,description,image,slug
-Holly,,,,,,,,,,holly
-Winter scene,,,,,,,,,,winter-scene
-Camp greeting,,,,,,,,,,camp-greeting
-Two indians travelling,,,,,,,,,,two-indians-travelling
-Ram success,,,,,,,,,,ram-success
-Trapper,,,,,,,,,,trapper
-Bison butte,,,,,,,,,,bison-butte
+title,year,type,status,medium,dimensions,price,prints,print_kind,print_price,description,image,slug
+Holly,,original,available,,,,yes,,,,,holly
+Winter scene,,original,available,,,,yes,,,,,winter-scene
+Camp greeting,,original,available,,,,yes,,,,,camp-greeting
+Two indians travelling,,original,available,,,,yes,,,,,two-indians-travelling
+Ram success,,original,available,,,,yes,,,,,ram-success
+Trapper,,original,available,,,,yes,,,,,trapper
+Bison butte,,original,available,,,,yes,,,,,bison-butte

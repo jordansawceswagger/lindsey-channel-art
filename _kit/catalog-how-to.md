@@ -11,7 +11,9 @@ Open `catalog-template.csv` in Google Sheets or Excel. **One row per painting, e
 | medium | What it's painted on | Oil on canvas |
 | dimensions | Size | 24 x 30 in |
 | price | Only if available | $1,800 |
-| print_kind | Only for prints: what kind | Giclee, numbered of 50 |
+| prints | `yes` if prints of this original are for sale | yes |
+| print_kind | What kind of print | Giclee, numbered of 50 |
+| print_price | Starting print price | $195 |
 | description | One or two sentences **in Lindsey's words**: what it is, where, who, why | |
 | image | Leave blank (Steve's photo goes in as `paintings/<title>.jpg`) | |
 | slug | Leave blank | |

@@ -709,7 +709,9 @@ const paintings = [
     "price": "",
     "image": "paintings/holly.jpg",
     "description": "",
-    "printKind": ""
+    "printKind": "",
+    "prints": true,
+    "printPrice": ""
   },
   {
     "id": 2,
@@ -723,7 +725,9 @@ const paintings = [
     "price": "",
     "image": "paintings/winter-scene.jpg",
     "description": "",
-    "printKind": ""
+    "printKind": "",
+    "prints": true,
+    "printPrice": ""
   },
   {
     "id": 3,
@@ -737,7 +741,9 @@ const paintings = [
     "price": "",
     "image": "paintings/camp-greeting.jpg",
     "description": "",
-    "printKind": ""
+    "printKind": "",
+    "prints": true,
+    "printPrice": ""
   },
   {
     "id": 4,
@@ -751,7 +757,9 @@ const paintings = [
     "price": "",
     "image": "paintings/two-indians-travelling.jpg",
     "description": "",
-    "printKind": ""
+    "printKind": "",
+    "prints": true,
+    "printPrice": ""
   },
   {
     "id": 5,
@@ -765,7 +773,9 @@ const paintings = [
     "price": "",
     "image": "paintings/ram-success.jpg",
     "description": "",
-    "printKind": ""
+    "printKind": "",
+    "prints": true,
+    "printPrice": ""
   },
   {
     "id": 6,
@@ -779,7 +789,9 @@ const paintings = [
     "price": "",
     "image": "paintings/trapper.jpg",
     "description": "",
-    "printKind": ""
+    "printKind": "",
+    "prints": true,
+    "printPrice": ""
   },
   {
     "id": 7,
@@ -793,7 +805,9 @@ const paintings = [
     "price": "",
     "image": "paintings/bison-butte.jpg",
     "description": "",
-    "printKind": ""
+    "printKind": "",
+    "prints": true,
+    "printPrice": ""
   }
 ];
 // CATALOG:END
@@ -854,7 +868,7 @@ function renderGallery() {
     return;
   }
   grid.innerHTML = paintings.map((p, i) => `
-    <article class="card" data-type="${p.type}" data-status="${p.status}" data-id="${p.id}" style="--i:${i};">
+    <article class="card" data-type="${p.type}" data-status="${p.status}" data-prints="${p.prints ? "yes" : ""}" data-id="${p.id}" style="--i:${i};">
       ${statusLabel(p) ? `<span class="card-badge">${statusLabel(p)}</span>` : ""}
       <div class="card-media">
         <div class="placeholder" style="background:${gradientFor(p.id)};">
@@ -866,6 +880,7 @@ function renderGallery() {
           <div class="card-title">${p.title}</div>
           <div class="card-meta">${[p.year, p.medium, p.dimensions].filter(Boolean).join(" · ")}</div>
           ${isAvailable(p) && p.price ? `<div class="card-price">${p.price}</div>` : ""}
+          ${p.prints ? `<div class="card-meta">Original · prints available</div>` : ""}
           <div class="card-cta">${isAvailable(p) ? "Inquire →" : "View →"}</div>
         </div>
       </div>
@@ -907,7 +922,9 @@ function applyFilter(filter) {
   document.querySelectorAll(".card").forEach(card => {
     const status = card.dataset.status || "available";
     const show = filter === "all"
-      || (filter === "sold" ? status !== "available" : (card.dataset.type === filter && status === "available"));
+      || (filter === "sold" ? status !== "available"
+          : filter === "print" ? (card.dataset.prints === "yes" || (card.dataset.type === "print" && status === "available"))
+          : (card.dataset.type === filter && status === "available"));
     card.classList.toggle("hidden", !show);
   });
 }
@@ -929,13 +946,14 @@ function openLightbox(id) {
       <h3 class="lightbox-title">${p.title}</h3>
       <div class="lightbox-meta">${[p.year, p.medium].filter(Boolean).join(" · ")}</div>
       <div class="lightbox-meta">${p.dimensions}</div>
-      <div class="lightbox-meta" style="text-transform:uppercase;letter-spacing:0.18em;font-size:11px;margin-top:8px;">${statusLabel(p) || (p.type === "print" ? (p.printKind || "Print") : "Original Work")}</div>
+      <div class="lightbox-meta" style="text-transform:uppercase;letter-spacing:0.18em;font-size:11px;margin-top:8px;">${[statusLabel(p) || (p.type === "print" ? (p.printKind || "Print") : "Original Work"), p.prints ? "Prints available" : ""].filter(Boolean).join(" · ")}</div>
       ${isAvailable(p) && p.price ? `<div class="lightbox-price">${p.price}</div>` : ""}
       <p class="lightbox-desc">${p.description}</p>
       <div class="lightbox-actions">
         ${isAvailable(p)
           ? `<a class="lb-btn primary" href="mailto:${site.email}?subject=${subject}">Request Purchase</a>`
           : `<a class="lb-btn primary" href="mailto:${site.email}?subject=${encodeURIComponent("Prints of " + p.title)}">Ask about prints</a>`}
+        ${p.prints && isAvailable(p) ? `<a class="lb-btn secondary" href="mailto:${site.email}?subject=${encodeURIComponent("Print order: " + p.title)}">Order a print</a>` : ""}
         <a class="lb-btn secondary" href="mailto:${site.email}?subject=${commissionSubject}">Request Commission</a>
       </div>
       <a class="lb-permalink" href="paintings/${p.slug}.html">Painting page &rarr;</a>
