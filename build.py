@@ -25,6 +25,11 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 ARTIST = "Lindsey Channel"
 EMAIL = "channeloutfitters1@gmail.com"   # keep in sync with site.email in index.html
 PHONE, PHONE_LINK = "406-261-2772", "+14062612772"
+# Meta pixel / dataset ID for Lindsey Channel Fine Art. Leave "" until it exists;
+# no tracking code is written while this is empty.
+PIXEL_ID = ""
+SITE_TITLE = "Lindsey Channel — Original Oil Paintings"
+SITE_DESC = "Original oil paintings by Lindsey Channel, Bigfork, Montana. Originals and prints."
 STATUSES = {"available", "sold", "collection", "nfs"}
 
 
@@ -74,6 +79,35 @@ def js_entry(r):
     return d
 
 
+def pixel_snippet(extra=""):
+    """Meta pixel: PageView everywhere, Lead on purchase/print/commission emails, Contact on phone taps."""
+    if not PIXEL_ID:
+        return ""
+    return f"""<script>
+!function(f,b,e,v,n,t,s){{if(f.fbq)return;n=f.fbq=function(){{n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)}};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','{PIXEL_ID}');fbq('track','PageView');{extra}
+document.addEventListener('click',function(e){{var a=e.target.closest&&e.target.closest('a[href^="mailto:"],a[href^="tel:"]');if(!a)return;var h=a.getAttribute('href');
+if(h.indexOf('tel:')===0){{fbq('track','Contact',{{method:'phone'}});return;}}
+var s=decodeURIComponent((h.split('subject=')[1]||'')).toLowerCase();
+fbq('track','Lead',{{content_name:s.indexOf('print')>-1?'Print':s.indexOf('commission')>-1?'Commission':s.indexOf('purchase')>-1?'Original':'Email'}});}});
+</script>"""
+
+
+def share_tags(title, desc, url, image, kind="website"):
+    e = html.escape
+    tags = [f'<meta property="og:type" content="{kind}" />',
+            f'<meta property="og:site_name" content="{e(ARTIST)}" />',
+            f'<meta property="og:title" content="{e(title)}" />',
+            f'<meta property="og:description" content="{e(desc)}" />',
+            f'<meta property="og:url" content="{url}" />',
+            '<meta name="twitter:card" content="summary_large_image" />',
+            f'<meta name="twitter:title" content="{e(title)}" />',
+            f'<meta name="twitter:description" content="{e(desc)}" />']
+    if image:
+        tags += [f'<meta property="og:image" content="{image}" />', f'<meta name="twitter:image" content="{image}" />']
+    return "\n".join(tags)
+
+
 def write_index(rows):
     p = os.path.join(ROOT, "index.html")
     s = open(p, encoding="utf-8").read()
@@ -81,6 +115,10 @@ def write_index(rows):
     s = re.sub(r"// CATALOG:START\n.*?// CATALOG:END", lambda m: f"// CATALOG:START\nconst paintings = {data};\n// CATALOG:END", s, flags=re.S)
     robots = "" if rows else '<meta name="robots" content="noindex" />'
     s = re.sub(r"<!-- ROBOTS:START -->.*?<!-- ROBOTS:END -->", lambda m: f"<!-- ROBOTS:START -->{robots}<!-- ROBOTS:END -->", s, flags=re.S)
+    first_img = next((r["image"] for r in rows if os.path.exists(os.path.join(ROOT, r["image"]))), "")
+    share = share_tags(SITE_TITLE, SITE_DESC, f"{base_url()}/", f"{base_url()}/{first_img}" if first_img else "")
+    s = re.sub(r"<!-- SHARE:START -->.*?<!-- SHARE:END -->", lambda m: f"<!-- SHARE:START -->\n{share}\n<!-- SHARE:END -->", s, flags=re.S)
+    s = re.sub(r"<!-- PIXEL:START -->.*?<!-- PIXEL:END -->", lambda m: f"<!-- PIXEL:START -->{pixel_snippet()}<!-- PIXEL:END -->", s, flags=re.S)
     canon = f'<link rel="canonical" href="{base_url()}/" />'
     s = re.sub(r'<link rel="canonical"[^>]*>\n?', "", s)
     s = s.replace("<!-- ROBOTS:END -->", "<!-- ROBOTS:END -->\n" + canon, 1)
@@ -120,6 +158,10 @@ def painting_page(r):
     buy_label = "Request purchase" if available else "Ask about prints"
     mail = lambda subj: f"mailto:{EMAIL}?subject={html.escape(subj.replace(' ', '%20'))}"
     title_tag = f"{r['title']} — {ARTIST}" + (f", {r['year']}" if r.get("year") else "")
+    vc_data = {"content_name": r["title"], "content_type": "product"}
+    if available and price_number(r.get("price")):
+        vc_data.update(value=float(price_number(r["price"])), currency="USD")
+    vc = "fbq('track','ViewContent'," + json.dumps(vc_data) + ");"
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -128,10 +170,8 @@ def painting_page(r):
 <title>{html.escape(title_tag)}</title>
 <meta name="description" content="{html.escape(desc)}" />
 <link rel="canonical" href="{url}" />
-<meta property="og:type" content="article" />
-<meta property="og:title" content="{html.escape(title_tag)}" />
-<meta property="og:description" content="{html.escape(desc)}" />
-<meta property="og:image" content="{img_url}" />
+{share_tags(title_tag, desc, url, img_url, "article")}
+{pixel_snippet(vc)}
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <script type="application/ld+json">{json.dumps(schema, ensure_ascii=False)}</script>
 <style>
